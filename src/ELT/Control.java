@@ -64,12 +64,37 @@ public class Control {
 		c.setTable_log("log");
 		cf.setC(c);
 		cf.getConfig(2, "|");
-		ChilkatExample gg = new ChilkatExample();
-		System.out.println(c.db_control);
-		gg.getTrial();
-		gg.downloadFile(cf.host, cf.port, cf.userRemote, cf.passRemote, cf.remotePath, cf.success_fir);
-		gg.getLog(cf.target_table, c.table_log);
-		cf.extractData();
-		cf.updateLog("ER", cf.target_table);
+		while (true) {
+			System.out.println("Choose a step:\n 1. GetConnection\n 2. Download file\n 3. Load Staging\n 0. Exist");
+			Scanner sc = new Scanner(System.in);
+			int value = sc.nextInt();
+			if (value == 1) {
+				Connection conn = new ConnectionDB().getConnection("staging");
+				if (conn != null) {
+					System.out.println("Thanh cong");
+				}
+			} else if (value == 2) {
+				// download
+				System.out.println("DOWNLOAD FILE");
+				Scanner sc2 = new Scanner(System.in);
+				ChilkatExample.getTrial();
+				ChilkatExample.downloadFile(cf.host, cf.port, cf.userRemote, cf.passRemote, cf.remotePath,
+						cf.success_fir);
+				ChilkatExample.getLog(cf.target_table, c.table_log);
+
+			} else if (value == 3) {
+				// staging
+				System.out.println("LOAD STAGING");
+				Scanner sc2 = new Scanner(System.in);
+				cf.extractData();
+				cf.updateLog("ER", cf.target_table);
+
+			} else if (value == 0) {
+				System.out.println("Good bye");
+				break;
+			} else {
+				System.out.println("NOT FOUND");
+			}
+		}
 	}
 }
