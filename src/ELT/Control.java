@@ -1,7 +1,9 @@
 package ELT;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -70,6 +72,8 @@ public class Control {
 			int value = sc.nextInt();
 			if (value == 1) {
 				Connection conn = new ConnectionDB().getConnection("staging");
+				Connection con = new ConnectionDB().getConnection(c.getDb_control());
+
 				if (conn != null) {
 					System.out.println("Thanh cong");
 				}
@@ -77,11 +81,7 @@ public class Control {
 				// download
 				System.out.println("DOWNLOAD FILE");
 				Scanner sc2 = new Scanner(System.in);
-				ChilkatExample.getTrial();
-				ChilkatExample.downloadFile(cf.host, cf.port, cf.userRemote, cf.passRemote, cf.remotePath,
-						cf.success_fir);
-				ChilkatExample.getLog(cf.target_table, c.table_log);
-
+				ChilkatExample.getLog(c.table_log, c.db_control, c.table_config);
 			} else if (value == 3) {
 				// staging
 				System.out.println("LOAD STAGING");
